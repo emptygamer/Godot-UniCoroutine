@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dy2jde1dmc1ot"]
+
+[ext_resource type="Script" path="res://UniCoroutine/Example/CoroutineExample.cs" id="1_nt8oi"]
+[ext_resource type="Texture2D" uid="uid://cho2r2viq0xa7" path="res://UniCoroutine/Example/test_image.png" id="2_dw7et"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_nt8oi")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(129, 125)
+texture = ExtResource("2_dw7et")
