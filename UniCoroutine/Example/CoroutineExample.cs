@@ -10,9 +10,10 @@ public partial class CoroutineExample : Node
 	{
 		var cs = CoroutineSystem.instance;
 		// Note : Create Coroutine Tasks.
-		cs.StartCoroutine(ImageTask());
-		cs.StartCoroutine(TestTask());
-		cs.StartCoroutine(TestTask2());
+		// cs.StartCoroutine(ImageTask());
+		// cs.StartCoroutine(TestTask());
+		// cs.StartCoroutine(TestTask2());
+		cs.StartCoroutine(MultiLayerTask1());
 	}
 
 	IEnumerator ImageTask(){
@@ -48,6 +49,29 @@ public partial class CoroutineExample : Node
 		GD.Print("Wait 5 Sec");
 		yield return new WaitTime(5);
 		GD.Print("TestTask2 Done!");
+	}
+	IEnumerator MultiLayerTask1(){
+		GD.Print("Start MutiLayerTask1...");
+		GD.Print("Wait 1 Sec");
+		yield return new WaitTime(1);
+		yield return MultiLayerTask2();
+		GD.Print("Wait 1 Sec");
+		yield return new WaitTime(1);
+		GD.Print("MutiLayerTask1 Done!");
+	}
+	IEnumerator MultiLayerTask2(){
+		GD.Print("Start MutiLayerTask2...");
+		yield return MultiLayerTask3();
+		GD.Print("Wait 1 Sec");
+		yield return new WaitTime(1);
+		GD.Print("MutiLayerTask2 Done!");
+	}
+	IEnumerator MultiLayerTask3(){
+		GD.Print("Start MutiLayerTask3...");
+		GD.Print("Wait Until Space Pressed.");
+		isSapcePressed = false;
+		yield return new WaitUntil(()=>{return isSapcePressed;});
+		GD.Print("MutiLayerTask3 Done!");
 	}
 
 	public override void _Process(double delta)

@@ -70,23 +70,27 @@ namespace UniCoroutine{
 		{
 			ProcessPriority = -1;
 		}
+		public bool ProcessTask(IEnumerator task){
+			// Note : If current in sub task, process it first.
+			if(task.Current is IEnumerator){
+				bool s = ProcessTask(task.Current as IEnumerator);
+				if(!s){
+					return task.MoveNext();
+				}else{
+					return true;
+				}
+			}else{
+				return task.MoveNext();
+			}
+		}
 		public override void _Process(double delta)
 		{
 			deltaTime = (float)delta;
 			for(int i=coroutineTasks.Count-1;i>=0;i--){
 				var en = coroutineTasks[i].GetEnumerator();
-				if(en.Current is IEnumerator){
-					// Note : If Current is IEnumerator, process it first.
-					if((en.Current as IEnumerator).MoveNext() == false){
-						if(en.MoveNext() == false){
-							coroutineTasks.RemoveAt(i);
-						}
-					}
-				}else{
-					if(en.MoveNext() == false){
-						coroutineTasks.RemoveAt(i);
-					}
-				}	
+				if(!ProcessTask(en)){
+					coroutineTasks.RemoveAt(i);
+				}
 			}
 		}
 	}
