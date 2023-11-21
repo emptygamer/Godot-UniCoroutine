@@ -47,6 +47,7 @@ namespace UniCoroutine{
 			if(this.GetParent() == null){
 				this.Init();
 			}
+			ProcessTask(coroutineTask);
 			coroutineTasks.Insert(0,new Coroutine(coroutineTask));
 		}
 
